@@ -82,11 +82,11 @@ Usage: $name [-i] [-f <file_to_patch>] <patch>
 "
             exit 0
             ;;
-	f)
-	    use_editor=0
-	    # Specify file to apply patch to
-	    target_file=$OPTARG
-	    ;;
+    	f)
+    	    use_editor=0
+    	    # Specify file to apply patch to
+    	    target_file=$OPTARG
+    	    ;;
         *)
             return_error "Invalid option: -$OPTARG" 22
             ;;
