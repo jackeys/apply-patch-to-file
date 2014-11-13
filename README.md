@@ -5,8 +5,8 @@ Instructions
 
 Use with the following syntax:
 
-    apply-patch-to-file [-i] <patch>
-                        [-f <file_to_patch>] <patch>
+    apply-patch-to-file [-i] [-a <arguments_for_git_am>] <patch>
+                        [-f <file_to_patch>] [-a <arguments_for_git_am>] <patch>
                         [-h]
 
 Not specifying any options defaults to interactive mode.
@@ -16,6 +16,7 @@ Options
 
 * **-f** *file_to_patch* — allows you to specify a single file that will be patched. This means that the specified patch must only modify one file.
 * **-i** — starts your favorite editor with a pre-formatted table in which you specify target files that will be patched.
+* **-a** *arguments_for_git_am* — allows for arguments to be passed through to the git am command that applies the patch. If multiple arguments are desired, they should be written in quotes like, "--ignore-whitespace --ignore-space-change"
 * **-h** — displays usage information.
 
 Example

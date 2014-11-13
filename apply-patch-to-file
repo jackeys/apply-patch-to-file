@@ -10,6 +10,7 @@ name=${0##*/}
 
 # Default values
 target_file=""
+git_am_arguments=""
 use_editor=1
 
 # Clean up if script is interrupted or terminated.
@@ -67,7 +68,7 @@ function process_temp_file {
     fi
 }
 
-while getopts ":f:ih" OPTION;do
+while getopts ":f:a:ih" OPTION;do
     case "$OPTION" in
         i)
 	    # Run interactively
@@ -79,6 +80,7 @@ Usage: $name [-i] [-f <file_to_patch>] <patch>
  -h display help information
  -i run interactively, using your editor (allows to apply patch to multiple files)
  -f specify file to apply patch to
+ -a specify arguments for git am command
 "
             exit 0
             ;;
@@ -87,6 +89,9 @@ Usage: $name [-i] [-f <file_to_patch>] <patch>
     	    # Specify file to apply patch to
     	    target_file=$OPTARG
     	    ;;
+        a)
+            git_am_arguments=$OPTARG
+            ;;
         *)
             return_error "Invalid option: -$OPTARG" 22
             ;;
@@ -136,5 +141,11 @@ else
     replace_file_names ${patch_file_list[0]} "$target_file"
 fi
 
+# Set IFS to once again respect spaces, so that multiple arguments can be passed through
+IFS=" "
+
 # Patch repo with the modified patch file
-git am $patch_file
+git am $git_am_arguments $patch_file
+
+# Make sure to restore the old IFS
+IFS=oldIFS
